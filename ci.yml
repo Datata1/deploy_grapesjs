@@ -1,0 +1,27 @@
+prepare:
+  steps:
+    - name: clone grapesjs
+      command: "git clone https://github.com/GrapesJS/grapesjs "
+    - name: insall dependencies
+      command: "cd grapesjs && yarn install "
+    - name: install peer dependencies
+      command: cd grapesjs && yarn add 'express' '@babel/core@^7.0.0-0' 'typescript@*'
+        '@types/node@*' 'typescript@>=2.7'
+    - name: clone webpage-preset
+      command: git clone -b gh-pages https://github.com/GrapesJS/grapesjs webpagepreset
+    - name: move files to main directory
+      command: cd webpagepreset && cp -r * ../grapesjs && cd .. && rm -rf webpagepreset
+    - name: delete index.html & replace it with demo.html
+      command: cd grapesjs && rm index.html
+    - name: Add express dependency
+      command: yarn add express
+    - name: Create directory for webpages
+      command: cd grapesjs && mkdir my_webpages
+    - name: move webpage directory to the right spot
+      command: mv my_webpages grapejs/
+test:
+  steps: []
+run:
+  steps:
+    - name: deploy grapesjs
+      command: node server.js
